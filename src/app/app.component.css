@@ -23,16 +23,30 @@
 }
 
 .wrapper {
+  padding: 10px;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   min-height: 150px;
+  flex-wrap: wrap;
 }
 
 .info {
+  margin-top: 20px;
   color: #ffffff;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+}
+
+.info-inner {
+  display: flex;
   align-items: center;
+}
+
+.info-anchor {
+  font-weight: 600;
+  color: lime;
+  font-size: 18px;
 }
 
 .inner-description {
@@ -47,6 +61,57 @@
 
 .inner-description::first-letter {
   font-size: 30px;
+}
+
+.note {
+  color: #cc0000;
+  font-size: 22px;
+}
+
+.logs-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: lime;
+}
+
+.logs-header {
+  font-size: 24px;
+  color: #cc0000;
+}
+
+.subheader {
+  margin-left: 5px;
+}
+
+.error-message {
+  padding-left: 10px;
+  padding-top: 10px;
+  color: #cc0000;
+}
+
+li {
+  text-align: left;
+  color: #ffffff;
+}
+
+button {
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 5px;
+  padding: 15px;
+  box-sizing: border-box;
+  background: #cc0000;
+  border: 1px solid #cc0000;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background: #ed2323;
 }
 
 p{

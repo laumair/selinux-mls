@@ -5,9 +5,12 @@ import node_ssh from 'node-ssh';
 import { cmd } from '../partials/index';
 
 export default class Ssh {
+  static isConfiguring = false;
+
   constructor() {
     this.connection = new node_ssh();
     this.retries = 0;
+    Ssh.isConfiguring = true;
   }
 
   verifyMlsPackage() {
@@ -47,6 +50,7 @@ export default class Ssh {
   }
 
   dispose() {
+    Ssh.isConfiguring = false;
     return this.connection.dispose();
   }
 

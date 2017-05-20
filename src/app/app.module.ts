@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
 import { SocketsService } from './sockets.service';
+import { HostService } from './host.service';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -15,7 +17,7 @@ import { SocketsService } from './sockets.service';
     FormsModule,
     HttpModule
   ],
-  providers: [SocketsService],
+  providers: [SocketsService, HostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -256,7 +256,7 @@ const enableMLS = (ssh, socket) => {
             }).catch(err => console.log(err));
         });
     })
-    .catch(() => {
+    .catch((err) => {
       socket.emitDefaultEvent(messages.SSH_CONNECTION_ERROR);
       if (ssh.shouldRetry(extras.retries)) {
         socket.emitDefaultEvent(messages.RETRY_ATTEMPT(ssh.retries));
@@ -271,15 +271,16 @@ const enableMLS = (ssh, socket) => {
 };
 
 const configureMLS = (req, res) => {
-  const io = req.app.get('socketio');
-  const socket = new Socket(io.sockets);
-  const ssh = new Ssh();
+    const io = req.app.get('socketio');
+    const socket = new Socket(io.sockets);
+    const ssh = new Ssh();
+    enableMLS(ssh, socket);
 
-  enableMLS(ssh, socket);
-
-  res.sendStatus(200);
+    res.jsonp({ isConfiguring: Ssh.isConfiguring });
 };
 
-const getCredentials = (req, res) => res.jsonp(config);
+const getStatus = (req, res) => {
+  res.jsonp(Object.assign({}, config, { isConfiguring: Ssh.isConfiguring }));
+};
 
-export default { configureMLS, getCredentials };
+export default { configureMLS, getStatus };

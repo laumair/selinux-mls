@@ -3,16 +3,58 @@
   <h3 class="title">SELinux MLS</h3>
 </div>
 <h4 class="description">Automates MLS configuration for SELinux via SSH.</h4>
+<div class="description"><span class="note">NOTE:</span>
+  If you haven't already, add your host credentials in <a class="info-anchor">config.js</a> found at the root of project directory.
+  If you do this while the server is running, you may need to restart it to see the reflected changes.
+</div>
 <div class="wrapper">
   <div class="info">
+    <div class="info-inner">
     <h4 class="inner-description title-border">Machine</h4>
     <h4 class="inner-description">Credentials</h4>
+    </div>
+    <ul *ngIf="credentials">
+      <li>IP Address: <a class="info-anchor">{{ credentials.host }}</a></li>
+      <li>Username: <a class="info-anchor">{{ credentials.username }}</a></li>
+      <li>Password: <a class="info-anchor">******</a></li>
+    </ul>
+    <em class="error-message" *ngIf="error">
+     {{ error }}
+    </em>
   </div>
   <div class="info">
     <h4 class="inner-description title-border">About</h4>
+    <ul>
+      <li><em>After SSH, it checks if <a class="info-anchor">MLS</a> package is already installed. If not, it downloads it.</em></li>
+      <li>
+        <em>Before the MLS policy is enabled, each file on the file system must be relabeled with an MLS label.
+              When the file system is relabeled, confined domains may be denied access, which may prevent your system from booting correctly.
+          To prevent this from happening, configure <a class="info-anchor">SELINUX=permissive</a> in the <a class="info-anchor">/etc/selinux/config</a> file.
+              Also, enable the MLS policy by configuring SELINUXTYPE=mls.
+        </em>
+      </li>
+      <li><em>Create the <a class="info-anchor">.autorelabel</a> file in root's home directory to ensure that files are relabeled upon next reboot:</em></li>
+      <li><em><a class="info-anchor">Reboots</a> your system. During the next boot, all file systems will be relabeled according to the MLS policy</em></li>
+      <li><em>Checks for <a class="info-anchor">/var/log/messages</a> for any denial messages.</em></li>
+      <li><em><a class="info-anchor">In case there are denial messages the SSH connection terminates and you would have to manually resolve the denial messages.</a></em></li>
+      <li><em>If there were no denial messages in <a class="info-anchor">/var/log/messages</a>,
+              configures <a class="info-anchor">SELINUX=enforcing</a>
+              in the <a class="info-anchor">/etc/selinux/config</a> file.
+          </em>
+      </li>
+      <li><em><a class="info-anchor">Reboots</a> your system and makes sure SELinux is running in enforcing mode.</em></li>
+    </ul>
   </div>
 </div>
 <hr />
 <section>
+  <span class="logs-wrapper">
+    <strong class="logs-header">Logs/Steps</strong>
+    <em class="subheader">(All steps/logs executed at your host would be listed here)</em>
+  </span>
+  <span class="logs-wrapper" *ngIf="credentials">
+    <em *ngIf="mlsStatus">{{ mlsStatus }}</em>
+    <button (click)="configure()" *ngIf="!credentials.isConfiguring">Configure MLS</button>
+  </span>
   <p *ngFor="let log of logs">> {{ log }}</p>
 </section>

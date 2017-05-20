@@ -1,7 +1,7 @@
 export default {
-  host: '0.0.0.0',
+  host: 'Your host IP',
   username: 'root',
-  password: '',
+  password: '****',
 };
 
 export const extras = {
